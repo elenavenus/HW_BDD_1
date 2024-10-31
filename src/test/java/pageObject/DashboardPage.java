@@ -1,5 +1,6 @@
 package pageObject;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
@@ -30,6 +31,7 @@ public class DashboardPage {
             if(element.getAttribute("data-test-id").equals(id)){
                 //если нашли нужную карту по id, то находим кнопку внутри контейнера и переходим к пополнению
                 element.$("button").click();
+                $("[data-test-id=amount]").should(Condition.appear);
                 break;
             }
         }

@@ -1,5 +1,6 @@
 package pageObject;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -18,5 +19,6 @@ public class VerificationPage {
     public void verify(){
         codeInput.setValue(verificationCode);
         verifyButton.click();
+        $(".list__item div").should(Condition.appear);
     }
 }

@@ -1,5 +1,6 @@
 package pageObject;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -21,5 +22,6 @@ public class TransactionPage {
         amountInput.setValue(String.valueOf(amount));
         cardFromInput.setValue(cardFrom);
         transactButton.click();
+        $(".list__item div").should(Condition.appear);
     }
 }
