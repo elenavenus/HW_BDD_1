@@ -16,9 +16,7 @@ class CardTransactionTest {
     @BeforeEach
     public void disableSecurity(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-infobars");
-        options.addArguments("--disable-popup-blocking");
+        System.setProperty("chromeoptions.prefs", "profile.password_manager_leak_detection=false");
         Configuration.browserCapabilities = options;
     }
 
