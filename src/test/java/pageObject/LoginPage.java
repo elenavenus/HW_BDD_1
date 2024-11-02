@@ -6,8 +6,6 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
-    private final String login = "vasya";
-    private final String password = "qwerty123";
     private SelenideElement loginInput;
     private SelenideElement passwordInput;
     private SelenideElement loginButton;
@@ -21,7 +19,7 @@ public class LoginPage {
 
 
 
-    public void login(){
+    public void login(String login, String password){
         loginInput.setValue(login);
         passwordInput.setValue(password);
         loginButton.click();

@@ -16,25 +16,14 @@ public class DashboardPage {
     }
 
     public int getCardBalance(String id) {
-        String text = null;
-        for(SelenideElement element : cards){
-            if(element.getAttribute("data-test-id").equals(id)){
-                text = element.text();
-                break;
-            }
-        }
-        return extractBalance(text);
+        SelenideElement cardElement = cards.findBy(Condition.attribute("data-test-id",id));
+        return extractBalance(cardElement.text());
     }
 
     public void goToTransaction(String id){
-        for(SelenideElement element : cards){
-            if(element.getAttribute("data-test-id").equals(id)){
-                //если нашли нужную карту по id, то находим кнопку внутри контейнера и переходим к пополнению
-                element.$("button").click();
-                $("[data-test-id=amount]").should(Condition.appear);
-                break;
-            }
-        }
+        cards.findBy(Condition.attribute("data-test-id",id))
+                .$("button").click();
+        $("[data-test-id=amount]").should(Condition.appear);
     }
 
     private int extractBalance(String text) {

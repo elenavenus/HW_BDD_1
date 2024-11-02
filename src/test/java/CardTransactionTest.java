@@ -8,38 +8,38 @@ import pageObject.LoginPage;
 import pageObject.TransactionPage;
 import pageObject.VerificationPage;
 
+import java.util.List;
+
 import static com.codeborne.selenide.Selenide.*;
 
 class CardTransactionTest {
 
 
-    @BeforeEach
-    public void disableSecurity(){
-        ChromeOptions options = new ChromeOptions();
-        System.setProperty("chromeoptions.prefs", "profile.password_manager_leak_detection=false");
-        Configuration.browserCapabilities = options;
-    }
-
     @Test
     public void ShouldCorrectTransact(){
         open("http://localhost:9999");
-        String firstCardNumber = "5559 0000 0000 0001";
-        String secondCardNumber = "5559 0000 0000 0002";
+
         String firstCardId = "92df3f1c-a033-48e6-8390-206f6b1f56c0";
         String secondCardId = "0f3f5c2a-249e-4c3d-8287-09f7a039391d";
+        DataHelper.AuthInfo authInfo = DataHelper.getAuthInfo();
 
+        DataHelper.CardsInfo cardsNumbers = DataHelper.getCardsInfoFor(authInfo);
+        String firstCardNumber = cardsNumbers.getCardsNumbers().get(0);
+        String secondCardNumber = cardsNumbers.getCardsNumbers().get(1);
 
         LoginPage loginPage = new LoginPage();
-        loginPage.login();
+        loginPage.login(authInfo.getLogin(), authInfo.getPassword());
+
         VerificationPage verificationPage = new VerificationPage();
-        verificationPage.verify();
+        verificationPage.verify(DataHelper.getVerificationCodeFor(authInfo).getCode());
+
         DashboardPage dashboardPage = new DashboardPage();
         int firstCardBalance = dashboardPage.getCardBalance(firstCardId);
         int secondCardBalance = dashboardPage.getCardBalance(secondCardId);
         //переходим на страницу пополнения первой карты
         dashboardPage.goToTransaction(firstCardId);
-        TransactionPage transactionPage = new TransactionPage();
 
+        TransactionPage transactionPage = new TransactionPage();
         int amount = secondCardBalance / 2;
         transactionPage.makeTransaction(secondCardNumber, amount);
 
