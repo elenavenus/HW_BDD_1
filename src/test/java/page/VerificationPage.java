@@ -1,4 +1,4 @@
-package pageObject;
+package page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -10,6 +10,7 @@ public class VerificationPage {
     private SelenideElement verifyButton;
 
     public VerificationPage(){
+        $("[data-test-id=code] input").should(Condition.appear);
         SelenideElement form = $("form");
         codeInput = form.$("[data-test-id=code] input");
         verifyButton = form.$("button");
@@ -18,6 +19,6 @@ public class VerificationPage {
     public void verify(String verificationCode){
         codeInput.setValue(verificationCode);
         verifyButton.click();
-        $(".list__item div").should(Condition.appear);
+
     }
 }

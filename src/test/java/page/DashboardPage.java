@@ -1,4 +1,4 @@
-package pageObject;
+package page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -8,11 +8,13 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
-    private ElementsCollection cards = $$(".list__item div");
+    private ElementsCollection cards;
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
 
     public DashboardPage() {
+        $(".list__item div").should(Condition.appear);
+        cards = $$(".list__item div");
     }
 
     public int getCardBalance(String id) {
@@ -23,7 +25,6 @@ public class DashboardPage {
     public void goToTransaction(String id){
         cards.findBy(Condition.attribute("data-test-id",id))
                 .$("button").click();
-        $("[data-test-id=amount]").should(Condition.appear);
     }
 
     private int extractBalance(String text) {

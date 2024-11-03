@@ -1,12 +1,12 @@
-import com.codeborne.selenide.Configuration;
+package test;
+
+import data.DataHelper;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.chrome.ChromeOptions;
-import pageObject.DashboardPage;
-import pageObject.LoginPage;
-import pageObject.TransactionPage;
-import pageObject.VerificationPage;
+import page.DashboardPage;
+import page.LoginPage;
+import page.TransactionPage;
+import page.VerificationPage;
 
 import java.util.List;
 
@@ -16,17 +16,16 @@ class CardTransactionTest {
 
 
     @Test
-    public void ShouldCorrectTransact(){
+    public void shouldCorrectTransact(){
         open("http://localhost:9999");
 
-        String firstCardId = "92df3f1c-a033-48e6-8390-206f6b1f56c0";
-        String secondCardId = "0f3f5c2a-249e-4c3d-8287-09f7a039391d";
         DataHelper.AuthInfo authInfo = DataHelper.getAuthInfo();
 
-        DataHelper.CardsInfo cardsNumbers = DataHelper.getCardsInfoFor(authInfo);
-        String firstCardNumber = cardsNumbers.getCardsNumbers().get(0);
-        String secondCardNumber = cardsNumbers.getCardsNumbers().get(1);
-
+        List<DataHelper.CardInfo> cardsInfo = DataHelper.getCardsInfoFor(authInfo);
+        String firstCardNumber = cardsInfo.get(0).getCardNumber();
+        String secondCardNumber = cardsInfo.get(1).getCardNumber();
+        String firstCardId = cardsInfo.get(0).getCardTestId();
+        String secondCardId = cardsInfo.get(1).getCardTestId();
         LoginPage loginPage = new LoginPage();
         loginPage.login(authInfo.getLogin(), authInfo.getPassword());
 
@@ -43,6 +42,7 @@ class CardTransactionTest {
         int amount = secondCardBalance / 2;
         transactionPage.makeTransaction(secondCardNumber, amount);
 
+        dashboardPage = new DashboardPage();
         int newFirstCardBalance = dashboardPage.getCardBalance(firstCardId);
         int newSecondCardBalance = dashboardPage.getCardBalance(secondCardId);
         //Логика проверок

@@ -1,4 +1,4 @@
-package pageObject;
+package page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -11,6 +11,7 @@ public class TransactionPage {
     private SelenideElement transactButton;
 
     public TransactionPage(){
+        $("[data-test-id=amount]").should(Condition.appear);
         SelenideElement form = $("form");
         amountInput = form.$("[data-test-id=amount] input");
         cardFromInput = form.$("[data-test-id=from] input");
@@ -22,6 +23,5 @@ public class TransactionPage {
         amountInput.setValue(String.valueOf(amount));
         cardFromInput.setValue(cardFrom);
         transactButton.click();
-        $(".list__item div").should(Condition.appear);
     }
 }

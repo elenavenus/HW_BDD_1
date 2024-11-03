@@ -1,4 +1,4 @@
-package pageObject;
+package page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -23,6 +23,5 @@ public class LoginPage {
         loginInput.setValue(login);
         passwordInput.setValue(password);
         loginButton.click();
-        $("[data-test-id=code] input").should(Condition.appear);
     }
 }
